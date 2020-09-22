@@ -1,0 +1,141 @@
+<html>
+<head>
+<style>
+  .inputline, .inputline > input {
+    background-color: black;
+	color: green;
+  }
+  #area {
+    background-color: black;
+	height: 100vh;
+	position: relative;
+  }
+  .word1, .word2, .word3 {
+    font-size: 48pt;
+	font-weight: bold;
+	font-family: sans-serif;
+	color: gold;
+	position: absolute;
+	left: 30vw;
+	top: 40vh;
+  }
+  .word1 {
+	animation:wordEntry1 1s;
+  }
+  .word2 {
+	animation:wordEntry2 1s;
+  }
+  .word3 {
+	animation:wordEntry3 1s;
+  }
+  .word1 > span, .word2 > span, .word3 > span {
+    font-size: 16pt;
+  }
+  @keyframes wordEntry1 {
+    from {
+	  left: 5vw;
+	  top: 5vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vh;
+	  font-size: 48pt;
+	}
+  }
+  @keyframes wordEntry2 {
+    from {
+	  left: 85vw;
+	  top: 5vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vh;
+	  font-size: 48pt;
+	}
+  }
+  @keyframes wordEntry3 {
+    from {s
+	  left: 5vw;
+	  top: 85vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vhs;
+	  font-size: 48pt;
+	}
+  }
+</style>
+<script>
+var words=['EMO,349', 'EMOS,1328', 'FLAN,3038', 'GOUT,4207', 'HATE,2797', 'HUGO,1418', 'HYPT,4019', 'JO,67',
+'JOA,353', 'JUP,574', 'JUPP,106350', 'LEAK,7919', 'LEGO,2480', 'LOOP,29704', 'MEGA,1281', 'MEM,242',
+'MEME,597', 'MEMS,758', 'METH,864', 'NICE,216', 'SOKO,6657', 'TICC,549', 'TORA,7655',
+'URLI', 'WIFI', 'ZIKA', 'DART', 'SHOT'
+];
+
+
+var last10=[];
+var restriction={};
+
+function matchesRestriction(entry) {
+	var items=entry.split(',');
+	if(restriction.length && items[0].replace(/[()]/g,'').length!==restriction.length) {
+		return false;
+	}
+	
+	return true;
+}
+
+function getNextIndex() {
+	var idx, loopCount=0;
+	do {
+	  idx=(Math.random()*words.length)|0;
+	} while((words[idx]==='' || last10.includes(idx) || !matchesRestriction(words[idx])) && ++loopCount<100);
+	last10.push(idx);
+	if(last10.length>10) {
+		last10.shift();
+	}
+    return idx;
+}
+
+function go() {
+  var idx=getNextIndex();
+  var inputEl=document.querySelector('input');
+  inputEl.onkeyup = function(evt) {
+	var key=evt.key;
+	if(key>='2' && key<='9') {
+		restriction.length=+key;
+	} else if(key==='0') {
+		restriction.length=null;
+	}
+  };
+  inputEl.focus();
+  setTimeout(onWord, 1000);
+  
+  function onWord() {
+    var el=document.createElement('div');
+	var entry=words[idx];
+	var items=entry.split(',');
+    el.innerText=items[0];
+	if(items.length>1) {
+	  var nrEl=document.createElement('span');
+	  nrEl.innerText=items[1];
+	  el.appendChild(nrEl);
+	}
+	el.className='word'+(1+(Math.random()*3)|0);
+    var area=document.querySelector('#area');
+	while(area.firstChild) { area.removeChild(area.firstChild); }
+    area.appendChild(el);
+	idx=getNextIndex();
+	setTimeout(onWord, 3000);
+  }
+}
+</script>
+</head>
+<body onload="go()">
+<div class="inputline"><input type="text"></div>
+<div id="area">
+</body>
+</html>
