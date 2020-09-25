@@ -1,0 +1,149 @@
+<html>
+<head>
+<h2>explizit diskriminierende oder derbe Wörter im RD28. Stand 25.09.2020</h2>
+<style>
+  .inputline, .inputline > input {
+    background-color: lightblue;
+	color: green;
+        position: relative;
+        left: 5vw;
+  }
+   
+  #area {
+    background-color: black; 
+        height: 100vh;
+	position: relative;
+  }
+  .word1, .word2, .word3 {
+    font-size: 48pt;
+	font-weight: bold;
+	font-family: sans-serif;
+	color: gold;
+	position: absolute;
+	left: 30vw;
+	top: 40vh;
+  }
+  .word1 {
+	animation:wordEntry1 1s;
+  }
+  .word2 {
+        color: red;         
+	animation:wordEntry2 1s;
+  }
+  .word3 {
+	animation:wordEntry3 1s;
+  }
+  .word1 > span, .word2 > span, .word3 > span {
+    font-size: 16pt;
+  }
+  @keyframes wordEntry1 {
+    from {
+	  left: 5vw;
+	  top: 5vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vh;
+	  font-size: 48pt;
+	}
+  }
+  @keyframes wordEntry2 {
+    from {
+	  left: 85vw;
+	  top: 5vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vh;
+	  font-size: 48pt;
+	}
+  }
+  @keyframes wordEntry3 {
+    from {s
+	  left: 5vw;
+	  top: 85vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vhs;
+	  font-size: 48pt;
+	}
+  }
+</style>
+<script>
+
+
+var last10=[];
+var restriction={};
+
+function matchesRestriction(entry) {
+	var items=entry.split(',');
+	if(restriction.length && items[0].replace(/[()]/g,'').length!==restriction.length) {
+		return false;
+	}
+	
+	return true;
+}
+
+function getNextIndex() {
+	var idx, loopCount=0;
+	do {
+	  idx=(Math.random()*words.length)|0;
+	} while((words[idx]==='' || last10.includes(idx) || !matchesRestriction(words[idx])) && ++loopCount<100);
+	last10.push(idx);
+	if(last10.length>10) {
+		last10.shift();
+	}
+    return idx;
+}
+
+function go() {
+  var idx=getNextIndex();
+  var inputEl=document.querySelector('input');
+  inputEl.onkeyup = function(evt) {
+	var key=evt.key;
+	if(key>='2' && key<='9') {
+		restriction.length=+key;
+	} else if(key==='0') {
+		restriction.length=null;
+	}
+  };
+  inputEl.focus();
+  setTimeout(onWord, 1000);
+  
+  function onWord() {
+    var el=document.createElement('div');
+	var entry=words[idx];
+	var items=entry.split(',');
+          el.innerText=items[0];
+	if(items.length>1) {
+	  var nrEl=document.createElement('span');
+	  nrEl.innerText=items[1];
+	  el.appendChild(nrEl);
+	}
+	el.className='word'+(1+(Math.random()*3)|0);
+    var area=document.querySelector('#area');
+	while(area.firstChild) { area.removeChild(area.firstChild); }
+    area.appendChild(el);
+	idx=getNextIndex();
+	setTimeout(onWord, 3000);
+  }
+}
+var words=[
+'VOLLKOTZ,1', 	'ROTZTEST,2', 	'SEICHEN,3', 	'ANSÖFFST,4', 	'PISSTEST,5', 	'RAMMELE,6', 	'SÄUISCH,7', 	'ROTZIGE,8', 	'VERHUR,9', 	'GESOCKS,10', 	'SCHISSE,11', 	'ANSÖFF,12', 	'UMNIETEN,13', 	'BEKOTZEN,14', 	'KACKTEST,15', 	'VÖGELTEN,16', 	'MÖSEN,17', 	'VERSAUET,18', 	'ABKACKTE,19', 	'BRUNZEST,20', 	'ÄRSCHEN,21', 	'ROTZ,22', 	'SAUGROB,23', 	'NUTTIGEM,24', 	'PISSENDE,25', 	'SAUKLAUE,26', 	'KOTZTEST,27', 	'FICKTE,28', 	'PISSET,29', 	'UMNIETE,30', 	'VERHURET,31', 	'KOTZÜBEL,32', 	'NUTTIGES,33', 	'BEPISSE,34', 	'FÜRZEN,35', 	'ANSÄUFT,36', 	'ROTZEND,37', 	'PISSTEN,38', 	'ANKOTZE,39', 	'VERHURST,40', 	'KOTZ,41', 	'SÄUFT,42', 	'NUTTIGER,43', 	'ROTZTE,44', 	'NUTTIGEN,45', 	'GESEICHS,46', 	'FICKEST,47', 	'ANFRÄSSE,48', 	'VÖGELND,49', 	'SAUBLÖDE,50', 	'SEICHEND,51', 	'VÖGELNDE,52', 	'SCHEISS,53', 	'VERSAUST,54', 	'RAMMLE,55', 	'SCHIFFST,56', 	'PISSEND,57', 	'BEKOTZE,58', 	'FICKT,59', 	'ROTZTET,60', 	'SAUFRASS,61', 	'VERKACKT,62', 	'AUSKOTZE,63', 	'KOTZEND,64', 	'MÖSE,65', 	'EINSAUTE,66', 	'ABKACKEN,67', 	'ANKOTZ,68', 	'FÜRZE,69', 	'KOTZENDE,70', 	'BRUNZET,71', 	'EINSAUEN,72', 	'GEFICKT,73', 	'VÖGELNS,74', 	'RAMMELEI,75', 	'EINSAUE,76', 	'VÖGELTE,77', 	'ROTZNASE,78', 	'FICKEN,79', 	'GESOCKSE,80', 	'SPACKO,81', 	'FICKS,82', 	'ROTZENDE,83', 	'ZIGEUNRE,84', 	'ROTZES,85', 	'KACKEN,86', 	'BRUNZTEN,87', 	'BESAUFET,88', 	'SÄUISCHE,89', 	'BRUNZ,90', 	'VERFRÄSS,91', 	'ROTZIG,92', 	'BEKOTZ,93', 	'VERSÖFFT,94', 	'KACKEST,95', 	'ANSAUFET,96', 	'GESEICH,97', 	'GEVÖGELT,98', 	'SÖFFT,99', 	'VERKACK,100', 	'KACKTE,101', 	'WICHSET,102', 	'ANPISSET,103', 	'SAUDUMM,104', 	'BEPISS,105', 	'SAUTEUER,106', 	'GESOFFEN,107', 	'ANFRESSE,108', 	'SAUGROBE,109', 	'SCHISS,110', 	'BRUNZEND,111', 	'ROTZEN,112', 	'BRUNZENS,113', 	'GEFICKTE,114', 	'WICHSTET,115', 	'VÖGELT,116', 	'ABKACKE,117', 	'KACKT,118', 	'KOTZET,119', 	'GEPISST,120', 	'ÄRSCHE,121', 	'ABKACKST,122', 	'SEICHS,123', 	'FICKTET,124', 	'SCHEISSE,125', 	'SÖFFEST,126', 	'BRUNZTE,127', 	'SÖFFET,128', 	'DRECKSAU,129', 	'VERSAUF,130', 	'VERSÖFF,131', 	'SÄUFST,132', 	'NUTTIGE,133', 	'ARSCH,134', 	'BESÖFFT,135', 	'KOTZTE,136', 	'BLOWJOB,137', 	'VERKACKE,138', 	'GEKOTZT,139', 	'GEROTZT,140', 	'ANSAUFEN,141', 	'SAUFENS,142', 	'VERHURTE,143', 	'SCHIFFTE,144', 	'VERHUREN,145', 	'GEKACKT,146', 	'PISSTE,147', 	'KOTZEST,148', 	'VOLLSÖFF,149', 	'ROTZT,150', 	'ARSCHES,151', 	'VERSAUFE,152', 	'VERHURT,153', 	'BEPISSET,154', 	'SCHISSES,155', 	'BRUNZEN,156', 	'BLOWJOBS,157', 	'GESEICHE,158', 	'BESÖFFET,159', 	'NUTTEN,160', 	'WICHSERS,161', 	'FICKE,162', 	'FETTSACK,163', 	'PISSEN,164', 	'GESEICHT,165', 	'AUFGEILT,166', 	'ROTZEST,167', 	'ABKACK,168', 	'ZIGEUNER,169', 	'VERRECKT,170', 	'VERSÖFFE,171', 	'ANSAUFE,172', 	'RAMMELST,173', 	'TITTEN,174', 	'EINSAUST,175', 	'VERPISST,176', 	'SEICHE,177', 	'BESAUFEN,178', 	'VERFRESS,179', 	'ANSÖFFT,180', 	'SÖFFST,181', 	'SAUF,182', 	'KOTZT,183', 	'SAUFET,184', 	'KREPIERT,185', 	'SEICHEST,186', 	'BESÄUFST,187', 	'WICHSEST,188', 	'SAUFEST,189', 	'GEKOTZTE,190', 	'FICK,191', 	'SÖFFEN,192', 	'VERSAUE,193', 	'KREPIER,194', 	'BEKOTZET,195', 	'KOTZTET,196', 	'BESAUFE,197', 	'WICHSENS,198', 	'ANSAUF,199', 	'ABWICHSE,200', 	'EINSAUN,201', 	'EINSAU,202', 	'ABWICHS,203', 	'VERARSCH,204', 	'ANKOTZET,205', 	'AUSKOTZT,206', 	'SEICHTET,207', 	'NUTTIG,208', 	'BEKOTZT,209', 	'ANPISST,210', 	'PISST,211', 	'ANFRÄSST,212', 	'KACKTET,213', 	'SAUDUMME,214', 	'BESCHISS,215', 	'SCHISSET,216', 	'BEKOTZTE,217', 	'KACKENS,218', 	'ANFRESST,219', 	'SCHISST,220', 	'VÖGELST,221', 	'VERHURE,222', 	'KACKST,223', 	'KOTZERIG,224', 	'PISSENS,225', 	'ANPISSEN,226', 	'ANKOTZT,227', 	'BEPISST,228', 	'WICHSTEN,229', 	'VERFRISS,230', 	'ROTZTEN,231', 	'EINSAUET,232', 	'FICKTEN,233', 	'BESÖFFEN,234', 	'WICHSER,235', 	'KACKE,236', 	'FICKENDE,237', 	'VÖGELE,238', 	'VERSAUN,239', 	'VERPISS,240', 	'VÖGELTET,241', 	'VERRECKE,242', 	'SAUFEND,243', 	'WICHSTE,244', 	'SEICHET,245', 	'BESÖFFST,246', 	'FICKEND,247', 	'ANSÖFFET,248', 	'TITTE,249', 	'BRUNZT,250', 	'PISSEST,251', 	'RAMMELT,252', 	'SEICH,253', 	'GESCHISS,254', 	'ANSÄUFST,255', 	'VERSAUEN,256', 	'KREPIERE,257', 	'VERPISSE,258', 	'ANPISSE,259', 	'BESAUF,260', 	'FICKENS,261', 	'BESÖFFE,262', 	'SAUWUT,263', 	'PISSTET,264', 	'KACKEND,265', 	'FURZES,266', 	'BEPISSTE,267', 	'ROTZIGER,268', 	'BESOFFNE,269', 	'SEICHENS,270', 	'FICKTEST,271', 	'AUSKOTZ,272', 	'ROTZET,273', 	'ANKOTZTE,274', 	'ANSCHISS,275', 	'WICHSERN,276', 	'VERSAU,277', 	'RAMMELNS,278', 	'ANSÖFFEN,279', 	'VERRECK,280', 	'UMNIETET,281', 	'KACKENDE,282', 	'UMNIET,283', 	'SEICHST,284', 	'ABKACKET,285', 	'ROTZE,286', 	'GESOFFNE,287', 	'NUTTE,288', 	'VERSÄUFT,289', 	'ANPISSTE,290', 	'KACKTEN,291', 	'RAMMELND,292', 	'WICHSEND,293', 	'KACK,294', 	'KLÖTEN,295', 	'ROTZIGEM,296', 	'SCHEISST,297', 	'SCHISSER,298', 	'SAUBLÖD,299', 	'ROTZENS,300', 	'EINSAUT,301', 	'AUFGEILE,302', 	'BESÖFF,303', 	'FICKET,304', 	'GEWICHST,305', 	'ANSÖFFE,306', 	'SÖFFE,307', 	'FICKERIG,308', 	'SCHIFFET,309', 	'KOTZTEN,310', 	'ROTZIGEN,311', 	'FICKST,312', 	'SAUFENDE,313', 	'ARSCHS,314', 	'ANFRÄSS,315', 	'AUFGEIL,316', 	'ABKACKT,317', 	'ANFRISST,318', 	'ANKOTZEN,319', 	'GEBRUNZT,320', 	'RAMMELTE,321', 	'SPACKOS,322', 	'ANPISS,323', 	'SAUTEURE,324', 	'VOLLSAUF,325', 	'SÖFF,326', 	'VÖGLE,327', 	'ANFRESS,328', 	'ROTZIGES,329', 	'BESÄUFT,330', 	'BEPISSEN,331', 	'BRUNZTET,332', 	'AULE,333', 	'BRUNZE,334', 	'SPACKENS,335', 	'KACKET,336', 	'SCHISSEN,337', 	'ROM,338'
+];
+
+
+</script>
+</head>
+
+<body onload="go()">
+<div class="inputline"><input type="text"></div>
+<div id="area">
+</body>
+<p>RD27-Wörter, die nicht im RD28 stehen.</p>
+
+</html>
