@@ -1,0 +1,151 @@
+<html>
+<head>
+<h2>Wörter, die nicht mehr im RD28 vorkommen. Stand 25.09.2020</h2>
+<style>
+  .inputline, .inputline > input {
+    background-color: lightblue;
+	color: green;
+        position: relative;
+        left: 5vw;
+  }
+   
+  #area {
+    background-color: black; 
+        height: 100vh;
+	position: relative;
+  }
+  .word1, .word2, .word3 {
+    font-size: 48pt;
+	font-weight: bold;
+	font-family: sans-serif;
+	color: gold;
+	position: absolute;
+	left: 30vw;
+	top: 40vh;
+  }
+  .word1 {
+	animation:wordEntry1 1s;
+  }
+  .word2 {
+        color: red;         
+	animation:wordEntry2 1s;
+  }
+  .word3 {
+	animation:wordEntry3 1s;
+  }
+  .word1 > span, .word2 > span, .word3 > span {
+    font-size: 16pt;
+  }
+  @keyframes wordEntry1 {
+    from {
+	  left: 5vw;
+	  top: 5vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vh;
+	  font-size: 48pt;
+	}
+  }
+  @keyframes wordEntry2 {
+    from {
+	  left: 85vw;
+	  top: 5vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vh;
+	  font-size: 48pt;
+	}
+  }
+  @keyframes wordEntry3 {
+    from {s
+	  left: 5vw;
+	  top: 85vh;
+	  font-size: 20pt;
+	}
+	to {
+	  left: 30vw;
+	  top: 40vhs;
+	  font-size: 48pt;
+	}
+  }
+</style>
+<script>
+
+
+var last10=[];
+var restriction={};
+
+function matchesRestriction(entry) {
+	var items=entry.split(',');
+	if(restriction.length && items[0].replace(/[()]/g,'').length!==restriction.length) {
+		return false;
+	}
+	
+	return true;
+}
+
+function getNextIndex() {
+	var idx, loopCount=0;
+	do {
+	  idx=(Math.random()*words.length)|0;
+	} while((words[idx]==='' || last10.includes(idx) || !matchesRestriction(words[idx])) && ++loopCount<100);
+	last10.push(idx);
+	if(last10.length>10) {
+		last10.shift();
+	}
+    return idx;
+}
+
+function go() {
+  var idx=getNextIndex();
+  var inputEl=document.querySelector('input');
+  inputEl.onkeyup = function(evt) {
+	var key=evt.key;
+	if(key>='2' && key<='9') {
+		restriction.length=+key;
+	} else if(key==='0') {
+		restriction.length=null;
+	}
+  };
+  inputEl.focus();
+  setTimeout(onWord, 1000);
+  
+  function onWord() {
+    var el=document.createElement('div');
+	var entry=words[idx];
+	var items=entry.split(',');
+          el.innerText=items[0];
+	if(items.length>1) {
+	  var nrEl=document.createElement('span');
+	  nrEl.innerText=items[1];
+	  el.appendChild(nrEl);
+	}
+	el.className='word'+(1+(Math.random()*3)|0);
+    var area=document.querySelector('#area');
+	while(area.firstChild) { area.removeChild(area.firstChild); }
+    area.appendChild(el);
+	idx=getNextIndex();
+	setTimeout(onWord, 3000);
+  }
+}
+var words=[
+'HÖRN,1',	'HÖRNE,2',	'HIEZU,3',	'DROB,4',	'HIEVON,5',	'HÖRNT,6',	'ECKEND,7',	'ECKENS,8',	'HÖRNTE,9',	'HÖRNEN,10',	'HIEFÜR,11',	'HIEMIT,12',	'AUSMÜNDE,13',	'DAROB,14',	'HIEHER,15',	'HIEVOR,16',	'ANLOB,17',
+'GAGT,18',	'NIETHOSE,19',	'ECKENDE,20',	'DANCINGS,21',	'DAHIER,22',	'GEECKT,23',	'AGENTIE,24',	'AUSMÜND,25',	'DANCING,26',	'HEILRUFE,27',	'GAGTE,28',	'HÖRNTEN,29',	'KEBSEHEN,30',	'ANLOBE,31',	'BLUSIG,32',	'HÖRNENS,33',	'GAGET,34',	'KEBSEHE,35',	'HEILRUFS,36',	'HEILRUF,37',	'HIEDURCH,38',	'HEMDHOSE,39',	'AGENTIEN,40',	'GEECKTE,41',	'HÖRNET,42',	'DANIEDEN,43',	'HÖRNEND,44',	'ECKENDES,45',	'NICOTINS,46',	'EMMCHEN,47',	'GAGST,48',	'BLUSIGE,49',	'MILKENS,50',	'ECKENDEM,51',	'EMMCHENS,52',	'HIEWIDER,53',	'AUSMÜNDEN,54',	'HÖRNTET,55',	'HÖRNST,56',	'HÖRNENDE,57',	'BLUSIGEN,58',	'HIENACH,59',	'EHEWEIBS,60',	'ANLOBT,61',	'MARATHIS,62',	'NIETHOSEN,63',	'AMARYL,64',	'GAGTEN,65',	'EHEWEIBE,66',	'GEECKTEN,67',	'EKELNAME,68',	'INWOHNER,69',	'ANLOBENS,70',	'AUSMÜNDET,71',	'BLUSIGER,72',	'EHEWEIB,73',	'ECKENDEN,74',	'BUKETTES,75',	'BEWEIB,76',	'GEECKTEM,77',	'DAWIDER,78',	'AMARYLE,79',	'AMARYLEN,80',	'AUFGAG,81',	'DEGAGIER,82',	'ANLOBEN,83',	'ANLOBEND,84',	'BLUSIGEM,85',	'ECKENDER,86',	'HEILRUFEN,87',	'HEMDHOSEN,88',	'BUNTFILM,89',	'ANLOBTEN,90',	'ANLOBTE,91',	'ISLAMIT,92',	'GEECKTES,93',	'AUFGAGE,94',	'HIEGEGEN,95',	'BLUSIGES,96',	'DILUVIUM,97',	'HEILRUFES,98',	'BEIFILME,99',	'ABDERIT,100',	'GAGTET,101',	'GEECKTER,102',	'BEIFILMS,103',	'BEIFIELE,104',	'MANNBARE,105',	'HÖRNEST,106',	'EKELNAMEN,107',	'ANLOBTET,108',	'JÜNGSTENS,109',	'IMBEZILE,110',	'BERGHOHE,111',	'REISHOLZ,112',	'BEWEIBE,113',	'BEIFILM,114',	'AMARYLS,115',	'AUFGAGTE,116',	'BEIFIEL,117',	'IMBEZIL,118',	'MANNBAR,119',	'REIBKÄSE,120',	'IRRWARD,121',	'SCHÄDELE,122',	'EHEWEIBES,123',	'MORDBUBE,124',	'IRRWERD,125',	'ANLOBST,126',	'AUFGAGEN,127',	'HALBREIF,128',	'IRRWERDE,129',	'ANLOBET,130',	'ANLOBEST,131',	'IRRWIRD,132',	'DEGAGIERE,133',	'EHEWEIBER,134',	'BUNTFILME,135',	'ANLOBENDE,136',	'HÖRNTEST,137',	'WARTSÄLE,138',	'AFFRONTE,139',	'DILUVIUMS,140',	'BEIFILMEN,141',	'AUFGAGT,142',	'BEWEIBT,143',	'BEIFIELT,144',	'REISHOLZE,145',	'BEGEBNIS,146',	'SCHÄDLE,147',	'GAGEST,148',	'HÖRNENDES,149',	'IRRWÜRDE,150',	'HÖRNENDEM,151',	'KREUCHST,152',	'HÖRNENDEN,153',	'IRRWÜRD,154',	'BEWEIBEN,155',	'GEFÄCHER,156',	'BEILAGER,157',	'COMPOSER,158',	'BEWEIBTE,159',	'BEIFIELEN,160',	'BEIFILMES,161',	'SCHÄDELT,162',	'INWOHNERS,163',	'AUFGAGET,164',	'IRRWIRST,165',	'FÜRBASS,166',	'INWOHNERN,167',	'BUNTFOTO,168',	'FÜRWITZE,169',	'REIBKÄSEN,170',	'SKOOTER,171',	'SKOOTERN,172',	'HALBREIFE,173',	'WARTSÄLEN,174',	'HÖRNENDER,175',	'BERGHOCH,176',	'MORDBUBEN,177',	'LIEBWERT,178',	'BUNTFILMS,179',	'BONHOMME,180',	'ABPROTZE,181',	'AUFGAGTEN,182',	'SNOWBIKEN,183',	'AFFRONTEN,184',	'DEGAGIERT,185',	'SKOOTERS,186',	'REIBKÄSES,187',	'BEIFIELET,188',	'IRRWÜRDEN,189',	'KEBSWEIB,190',	'FÜRWITZ,191',	'TOOLBARS,192',	'LEHRJUNGE,193',	'BERGHOHEN,194',	'BERGHOHEM,195',	'AUFGAGST,196',	'IMBEZILL,197',	'GEFÄCHERN,198',	'IRRWÜRDET,199',	'BEWEIBET,200',	'HIERINNEN,201',	'SCHÄDELTE,202',	'BERGHOHES,203',	'FÜRWITZES,204',	'IMBEZILEN,205',	'BEILAGERN,206',	'BUNTFOTOS,207',	'AUFGAGTET,208',	'BEWEIBST,209',	'WARTSAAL,210',	'COMPOSERN,211',	'ABPROTZ,212',	'MANNBAREN,213',	'MANNBARES,214',	'GAGTEST,215',	'ISLAMITEN,216',	'LEHRJUNGS,217',	'BONHOMMES,218',	'IMBEZILER,219',	'AUFBAUMEL,220',	'IMBEZILES,221',	'DAMENREDE,222',	'BERGHOHER,223',	'BEWEIBENS,224',	'MURRKOPF,225',	'MANNBARER,226',	'MANNBAREM,227',	'BEDRÜCKER,228',	'COMPOSERS,229',	'SCHÄDELST,230',	'AUFGAGEND,231',	'AUFGAGENS,232',	'IRRWERDET,233',	'BEWEIBEND,234',	'LIEBWERTE,235',	'IMBEZILEM,236',	'ADRESSANT,237',	'BEILAGERS,238',	'HAUSLEUTE,239',	'HIENIEDEN,240',	'KEBSWEIBE,241',	'AUFBAUMLE,242',	'BEIFÄLLT,243',	'ABPROTZEN,244',	'IMBEZILLE,245',	'BEIFALLEN,246',	'LEIBWEHES,247',	'DEVASTIER,248',	'BESCHWERS,249',	'BEIFALLET,250',	'PALMBAUM,251',	'DEPPE,252',	'ABPROTZT,253',	'BEWEIBTEN,254',	'BEWEIBTEM,255',	'ABPROTZET,256',	'ALTERCHEN,257',	'AUFBAMMLE,258',	'RIESWEISE,259',	'WARTSAALE,260',	'ACKERMANN,261',	'BEWEIBTES,262',	'KEBSWEIBS,263',	'SCHULMANN,264',	'BEWEIBTER,265',	'ANLOBTEST,266',	'HÜFTWEHES,267',	'JETTARTIG,268',	'ABDERITEN,269',	'ABPROTZTE,270',	'BERGEHOHE,271',	'IRRWARDST,272',	'BRIEFADEL,273',	'BEWEIBTET,274',	'WASSERNOT,275',	'MURRKOPFS,276',	'ANZULOBEN,277',	'BOTENFRAU,278',	'DIÄTISTIN,279',	'KANANITER,280',	'WARTSAALS,281',	'ABSCHÄDLE,282',	'BEURGRUNZ,283',	'AUFGAGEST,284',	'BEIFIELST,285',	'IRRWÜRDST,286',	'PALMBÄUME,287',	'PALMBAUMS,288',	'BEWEIBEST,289',	'MURRKÖPFE,290',	'MISCHBLUT,291',	'BERGEHOCH,292',	'FÜRWITZIG,293',	'OBERWÄRTS,294',	'TÜRHÜTER,295',	'KLINGLING,296',	'AFFENZECK,297',	'AUFBAMMEL,298',	'DEBILITÄT,299',	'KOADJUTOR,300',	'PFARRHERR,301',	'TÜRHÜTERN,302',	'SCHALOBST,303',	'AUFGEGAGT,304',	'BEIFÄLLST,305',	'TÜRHÜTERS,306',	'KAMPFLÄRM,307',
+
+];
+
+
+</script>
+</head>
+
+<body onload="go()">
+<div class="inputline"><input type="text"></div>
+<div id="area">
+</body>
+<p>RD27-Wörter, die nicht im RD28 stehen.</p>
+
+</html>
